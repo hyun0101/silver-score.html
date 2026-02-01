@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>실버 웨이트 캠페인 리포트</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Pretendard', sans-serif;
+  background: linear-gradient(180deg, #eef1f5, #dfe3e8);
+  text-align: center;
+  color: #222;
+}
+.container {
+  max-width: 520px;
+  margin: auto;
+  padding: 30px 18px 60px;
+}
+h1 { font-size: 22px; margin-bottom: 5px; }
+.subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
+
+.section-title {
+  text-align: left;
+  font-size: 14px;
+  margin: 20px 0 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.06);
+  text-align: left;
+  font-size: 14px;
+}
+.rank { font-weight: bold; margin-right: 6px; }
+.weight { float: right; color: #444; }
+
+.total-box {
+  background: linear-gradient(135deg, #cfd2d6, #b8bcc2);
+  border-radius: 22px;
+  padding: 25px 15px;
+  margin-top: 25px;
+}
+.big { font-size: 26px; font-weight: bold; margin: 6px 0; }
+
+.impact-box {
+  background: white;
+  border-radius: 20px;
+  padding: 20px 15px;
+  margin-top: 15px;
+  box-shadow: 0 5px 12px rgba(0,0,0,0.06);
+}
+
+.footer {
+  font-size: 12px;
+  color: #777;
+  margin-top: 25px;
+  line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>📘 실버 웨이트 자원순환 리포트</h1>
+  <div class="subtitle">카스 0.0 × 해커스 전국 캠페인</div>
+
+  <div class="section-title">🏆 지점별 수거 랭킹</div>
+  <div id="rankingList"></div>
+
+  <div class="total-box">
+    <div>총 수거 무게</div>
+    <div class="big" id="totalWeight">0 kg</div>
+  </div>
+
+  <div class="impact-box">
+    <div>🌲 보호한 소나무 수</div>
+    <div class="big" id="treeCount">0 그루</div>
+
+    <div style="margin-top:12px;">🌍 절감된 CO₂ 배출량</div>
+    <div class="big" id="co2Saved">0 kg</div>
+  </div>
+
+  <div class="footer">
+    버려진 교재는 자원으로, 노력은 응원으로 돌아갑니다 💚<br>
+    환경 보호에 함께해주셔서 감사합니다.
+  </div>
+</div>
+
+<script>
+// 🔧 지점별 수거 무게 입력 (여기만 수정하면 됨)
+const branches = [
+  { name: "강남 해커스", weight: 128.5 },
+  { name: "종로 해커스", weight: 96.2 },
+  { name: "신촌 해커스", weight: 143.8 },
+  { name: "부산 해커스", weight: 88.4 }
+];
+
+// 무게순 정렬 → 랭킹 생성
+branches.sort((a, b) => b.weight - a.weight);
+
+const rankingList = document.getElementById("rankingList");
+let totalWeight = 0;
+
+branches.forEach((branch, index) => {
+  totalWeight += branch.weight;
+  rankingList.innerHTML += `
+    <div class="card">
+      <span class="rank">${index + 1}위</span> ${branch.name}
+      <span class="weight">${branch.weight} kg</span>
+    </div>
+  `;
+});
+
+// 🌲 종이 1kg 재활용 시 소나무 0.02그루 보호 (캠페인 환산 기준)
+const treesSaved = (totalWeight * 0.02).toFixed(1);
+
+// 🌍 종이 1kg 재활용 시 CO₂ 약 1.8kg 절감 효과 (평균 환경 환산값)
+const co2Reduction = (totalWeight * 1.8).toFixed(1);
+
+// 화면 반영
+document.getElementById("totalWeight").innerText = totalWeight.toFixed(1) + " kg";
+document.getElementById("treeCount").innerText = treesSaved + " 그루";
+document.getElementById("co2Saved").innerText = co2Reduction + " kg";
+</script>
+</body>
+</html>
